@@ -51,24 +51,48 @@ namespace ECET230Lab6Animation
         public override Task Run()
         {
 
-            while (true)
-            {
-                
+            DateTime time = DateTime.Now;
 
-                Random random = new Random();
+            Random random = new Random();
+
+            int numOfBalls = 150;
+
+            Circle[] circles = new Circle[numOfBalls];
+
+            for(int i = 0; i < numOfBalls; i++)
+            {
+                graphics.CurrentFont = new Font12x16();
 
                 Color randomColor = Color.FromRgb(random.Next(255), random.Next(255), random.Next(255));
 
-                Circle circle = new Circle(graphics, 240, 240, randomColor, false); ;
+                circles[i] = new Circle(graphics, 240, 240, randomColor, false);
 
-                circle.setPosition(random.Next(240), random.Next(240));
-                circle.setRadius(random.Next(3, 40));
+                circles[i].setPosition(120, 120);
 
-                circle.draw();
+                circles[i].setRadius(random.Next(3,20));
+
+                circles[i].setSpeed(random.Next(5,15), random.Next(5, 15));
+            }
+
+            while (true)
+            {
+                time = DateTime.Now;
+
+                graphics.Clear();
+
+                foreach (Circle circle in circles)
+                {
+                    circle.draw();
+                }
+
+                TimeSpan timeDiff = DateTime.Now - time;
+                double timeDiffMilliseconds = timeDiff.TotalMilliseconds;
+                //int fps = (1 / (timeDiffMilliseconds / 1000));
+
+                graphics.DrawText(0, 0, $"FPS:{1.0 / (timeDiffMilliseconds / 1000.0):F1}");
 
                 graphics.Show();
-
-                Thread.Sleep(500);
+                
             }
 
 

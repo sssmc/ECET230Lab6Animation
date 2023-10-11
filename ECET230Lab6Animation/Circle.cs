@@ -30,6 +30,8 @@ namespace ECET230Lab6Animation
 			this.ballColor = ballColor;
 			positionX = 0;
 			positionY = 0;
+			speedX = 0;
+			speedY = 0;
 		}
 
 		public void setGraphics(MicroGraphics graphics)
@@ -59,6 +61,12 @@ namespace ECET230Lab6Animation
 			positionY = y;
 		}
 
+		public void setSpeed(int speedX, int speedY)
+		{
+			this.speedX = speedX;
+			this.speedY = speedY;
+		}
+
 		public int getRadius()
 		{
 			return radius;
@@ -83,8 +91,27 @@ namespace ECET230Lab6Animation
 			this.ballColor = ballColor;
 		}
 
+		private void updatePosition()
+		{
+			positionX += speedX;
+			positionY += speedY;
+
+			if((positionX >= (displayWidth - radius)) || (positionX <= (0 + radius)))
+			{
+				speedX *= -1;
+
+			}
+            if ((positionY >= (displayHeight - radius)) || (positionY <= (0 + radius)))
+            {
+                speedY *= -1;
+
+            }
+        }
+
 		public void draw()
 		{
+			updatePosition();
+
             graphics.DrawCircle
             (
                 centerX: positionX,
